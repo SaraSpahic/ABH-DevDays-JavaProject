@@ -30,6 +30,8 @@ public class RestaurantFilter {
 	 */
 	public String sortBy;
 
+	public String price;
+
 	private RestaurantFilter() { }
 
 	/**
@@ -96,7 +98,20 @@ public class RestaurantFilter {
 		return this;
 	}
 
-	/**
+    /**
+     * Sets city filter.
+     *
+     * @param price the price
+     * @return the price filter
+     * @throws ServiceException the service exception
+     */
+    public RestaurantFilter setPriceFilter(String price) throws ServiceException {
+        this.price = price;
+        return this;
+    }
+
+
+    /**
 	 * Sets sort.
 	 *
 	 * @param sortBy the sort by
