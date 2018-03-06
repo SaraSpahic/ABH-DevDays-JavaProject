@@ -16,12 +16,15 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import scala.Console;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -109,6 +112,20 @@ public class RestaurantService extends BaseService {
 
         List<Restaurant> restaurants = criteria.list();
 
+        if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
+            Iterator<Restaurant> restaurantIterator = restaurants.iterator();
+            while (restaurantIterator.hasNext()) {
+                Restaurant restaurant = restaurantIterator.next();
+                System.out.println("Average rating is : " + restaurant.getAverageRating());
+                System.out.println("Rating filter is : " + restaurantFilter.rating);
+                System.out.println("Equals is : " + restaurant.getAverageRating().equals((double) restaurantFilter.rating));
+                if (!ratingMatchesFilter(restaurant.getAverageRating(),restaurantFilter.rating)) {
+                    restaurantIterator.remove();
+                }
+            }
+            restaurantIterator.forEachRemaining(restaurants::remove);
+        }
+
         switch (restaurantFilter.sortBy) {
             case "rating":
                 restaurants.sort((o1, o2) -> o2.getAverageRating().compareTo(o1.getAverageRating()));
@@ -120,6 +137,39 @@ public class RestaurantService extends BaseService {
                 .setPageSize(restaurantFilter.pageSize)
                 .setModel(restaurants)
                 .setNumberOfPages(numberOfPages);
+    }
+
+    private boolean ratingMatchesFilter(Double averageRating, Integer ratingFilter) {
+        switch (ratingFilter) {
+            case 1:
+                if (averageRating >= 0.25 && averageRating < 2) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (averageRating >= 2 && averageRating < 3) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (averageRating >= 3 && averageRating < 4) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (averageRating >= 4 && averageRating < 4.75) {
+                    return true;
+                }
+                break;
+            case 5: {
+                if (averageRating >= 4.75) {
+                    return true;
+                }
+            }
+            break;
+        }
+        return false;
+
     }
 
     /**
