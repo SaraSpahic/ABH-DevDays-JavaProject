@@ -6,10 +6,7 @@ import models.helpers.PopularRestaurantsBean;
 import models.helpers.RestaurantFilter;
 import models.helpers.forms.ImageUploadForm;
 import models.helpers.forms.ReviewForm;
-import models.tables.Reservation;
-import models.tables.Restaurant;
-import models.tables.RestaurantReview;
-import models.tables.User;
+import models.tables.*;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -94,8 +91,16 @@ public class RestaurantService extends BaseService {
             criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
         }
 
-        if (restaurantFilter.price != null && !restaurantFilter.price.equals("0")) {
-            criteria.add(Restrictions.eq("priceRange", Integer.valueOf(restaurantFilter.price)));
+        if (restaurantFilter.price != 0) {
+            criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+        }
+
+        if (restaurantFilter.cuisine != null && !restaurantFilter.cuisine.equalsIgnoreCase("")) {
+            Criteria cuisine = criteria.createCriteria("cuisines");
+            String[] cuisines = restaurantFilter.cuisine.split(",");
+            for (String singleCuisine : cuisines) {
+                cuisine.add(Restrictions.eq("name", singleCuisine));
+            }
         }
 
         Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
@@ -119,7 +124,7 @@ public class RestaurantService extends BaseService {
                 System.out.println("Average rating is : " + restaurant.getAverageRating());
                 System.out.println("Rating filter is : " + restaurantFilter.rating);
                 System.out.println("Equals is : " + restaurant.getAverageRating().equals((double) restaurantFilter.rating));
-                if (!ratingMatchesFilter(restaurant.getAverageRating(),restaurantFilter.rating)) {
+                if (!ratingMatchesFilter(restaurant.getAverageRating(), restaurantFilter.rating)) {
                     restaurantIterator.remove();
                 }
             }

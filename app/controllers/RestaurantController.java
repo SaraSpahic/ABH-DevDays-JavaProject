@@ -84,7 +84,8 @@ public class RestaurantController extends BaseController {
 						.setPageSize(getQueryInt(request().getQueryString(PAGE_SIZE), DEFAULT_PAGE_SIZE))
 						.setNameFilter(request().getQueryString(NAME_FILTER))
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
-                        .setPriceFilter(request().getQueryString(PRICE_FILTER))
+                        .setPriceFilter(getQueryInt(request().getQueryString(PRICE_FILTER),0))
+						.setCuisineFilter(request().getQueryString(CUISINE_FILTER))
 						.setRatingFilter(getQueryInt(request().getQueryString(RATING_FILTER),0))
 						.setSort(request().getQueryString(SORT_BY))
 		));

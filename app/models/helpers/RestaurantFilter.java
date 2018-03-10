@@ -33,7 +33,7 @@ public class RestaurantFilter {
     /**
      * The Price.
      */
-    public String price;
+    public int price;
 
     /**
      * The Rating.
@@ -120,7 +120,7 @@ public class RestaurantFilter {
      * @return the price filter
      * @throws ServiceException the service exception
      */
-    public RestaurantFilter setPriceFilter(String price) throws ServiceException {
+    public RestaurantFilter setPriceFilter(int price) throws ServiceException {
         this.price = price;
         return this;
     }
