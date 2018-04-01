@@ -44,7 +44,7 @@ public class RestaurantFilter {
     /**
      * The Cuisine.
      */
-    public String cuisine;
+    public String[] cuisine;
 
     private RestaurantFilter() {
     }
@@ -146,7 +146,7 @@ public class RestaurantFilter {
      * @return the cuisine filter
      * @throws ServiceException the service exception
      */
-    public RestaurantFilter setCuisineFilter(String cuisine) throws ServiceException {
+    public RestaurantFilter setCuisineFilter(String[] cuisine) throws ServiceException {
         this.cuisine = cuisine;
         return this;
     }

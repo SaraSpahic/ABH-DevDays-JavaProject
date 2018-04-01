@@ -8,10 +8,7 @@ import models.helpers.forms.ImageUploadForm;
 import models.helpers.forms.ReviewForm;
 import models.tables.*;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 import scala.Console;
 
@@ -95,12 +92,14 @@ public class RestaurantService extends BaseService {
             criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
         }
 
-        if (restaurantFilter.cuisine != null && !restaurantFilter.cuisine.equalsIgnoreCase("")) {
+        if (restaurantFilter.cuisine != null && restaurantFilter.cuisine[0] != null && !restaurantFilter.cuisine[0].equalsIgnoreCase("") ) {
             Criteria cuisine = criteria.createCriteria("cuisines");
-            String[] cuisines = restaurantFilter.cuisine.split(",");
-            for (String singleCuisine : cuisines) {
-                cuisine.add(Restrictions.eq("name", singleCuisine));
+            Disjunction disjunction = Restrictions.disjunction();
+            for (String singleCuisine : restaurantFilter.cuisine) {
+                disjunction.add(Restrictions.eq("name", singleCuisine));
+                System.out.println("Current cuisine:" + singleCuisine);
             }
+            cuisine.add(disjunction);
         }
 
         Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
