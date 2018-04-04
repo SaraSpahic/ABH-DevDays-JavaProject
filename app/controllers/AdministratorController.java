@@ -1,6 +1,8 @@
 package controllers;
 
+import play.db.jpa.Transactional;
 import services.AdministratorService;
+import play.mvc.Result;
 
 import javax.inject.Inject;
 
@@ -19,5 +21,10 @@ public class AdministratorController extends BaseController {
 	@Inject
 	public void setService(final AdministratorService service) {
 		this.service = service;
+	}
+
+	@Transactional
+	public Result getStatistics() {
+		return wrapForAdmin(() -> this.service.getStatistics());
 	}
 }
