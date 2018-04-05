@@ -102,6 +102,11 @@ public class RestaurantService extends BaseService {
             cuisine.add(disjunction);
         }
 
+        if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
+            criteria.add(Restrictions.sqlRestriction("SELECT AVG(rating) FROM restaurant_review WHERE restaurant_id={id}"));
+        }
+
+
         Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
         criteria.setProjection(null)
@@ -114,8 +119,9 @@ public class RestaurantService extends BaseService {
 
         criteria.addOrder(Order.asc("name"));
 
-        List<Restaurant> restaurants = criteria.list();
 
+        List<Restaurant> restaurants = criteria.list();
+/*
         if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
             Iterator<Restaurant> restaurantIterator = restaurants.iterator();
             while (restaurantIterator.hasNext()) {
@@ -128,7 +134,7 @@ public class RestaurantService extends BaseService {
                 }
             }
             restaurantIterator.forEachRemaining(restaurants::remove);
-        }
+        }*/
 
         switch (restaurantFilter.sortBy) {
             case "rating":
