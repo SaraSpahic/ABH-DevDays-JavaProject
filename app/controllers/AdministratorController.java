@@ -11,20 +11,20 @@ import javax.inject.Inject;
  */
 public class AdministratorController extends BaseController {
 
-	private AdministratorService service;
+    private AdministratorService service;
 
-	/**
-	 * Sets service.
-	 *
-	 * @param service the service
-	 */
-	@Inject
-	public void setService(final AdministratorService service) {
-		this.service = service;
-	}
+    /**
+     * Sets service.
+     *
+     * @param service the service
+     */
+    @Inject
+    public void setService(final AdministratorService service) {
+        this.service = service;
+    }
 
-	@Transactional
-	public Result getStatistics() {
-		return wrapForAdmin(() -> this.service.getStatistics());
-	}
+    @Transactional
+    public Result getStatistics() {
+        return wrapForAdmin(() -> this.service.getStatistics());
+    }
 }

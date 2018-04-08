@@ -10,7 +10,8 @@ public class AdministratorStatistics {
     private int numberOfLocations;
     private int numberOfUsers;
 
-	private AdministratorStatistics() {}
+    private AdministratorStatistics() {
+    }
 
     public AdministratorStatistics(int numberOfRestaurants, int numberOfCuisines, int numberOfLocations, int numberOfUsers) {
         this.numberOfRestaurants = numberOfRestaurants;
