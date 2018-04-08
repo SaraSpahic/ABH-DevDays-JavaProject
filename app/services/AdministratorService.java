@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 @Singleton
 public class AdministratorService extends BaseService {
 
-	@Inject
-	private AdministratorService() { }
+    @Inject
+    private AdministratorService() {
+    }
 
 }

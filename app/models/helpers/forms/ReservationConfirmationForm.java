@@ -8,24 +8,29 @@ import models.tables.Reservation;
  */
 public class ReservationConfirmationForm extends BaseModel {
 
-	private Reservation reservation;
+    private Reservation reservation;
 
-	/**
-	 * Instantiates a new Reservation confirmation form.
-	 */
-	public ReservationConfirmationForm() { }
+    /**
+     * Instantiates a new Reservation confirmation form.
+     */
+    public ReservationConfirmationForm() {
+    }
 
-	/**
-	 * Gets reservation.
-	 *
-	 * @return the reservation
-	 */
-	public Reservation getReservation() { return reservation; }
+    /**
+     * Gets reservation.
+     *
+     * @return the reservation
+     */
+    public Reservation getReservation() {
+        return reservation;
+    }
 
-	/**
-	 * Sets reservation.
-	 *
-	 * @param reservation the reservation
-	 */
-	public void setReservation(Reservation reservation) { this.reservation = reservation; }
+    /**
+     * Sets reservation.
+     *
+     * @param reservation the reservation
+     */
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
 }

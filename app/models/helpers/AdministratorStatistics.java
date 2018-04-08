@@ -5,6 +5,7 @@ package models.helpers;
  */
 public class AdministratorStatistics {
 
-	private AdministratorStatistics() {}
+    private AdministratorStatistics() {
+    }
 
 }

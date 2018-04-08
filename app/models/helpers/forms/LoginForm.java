@@ -13,33 +13,42 @@ public class LoginForm extends BaseModel {
     /**
      * Instantiates a new Login form.
      */
-    public LoginForm() { }
+    public LoginForm() {
+    }
 
     /**
      * Gets email.
      *
      * @return the email
      */
-    public String getEmail()  { return this.email; }
+    public String getEmail() {
+        return this.email;
+    }
 
     /**
      * Sets email.
      *
      * @param email the email
      */
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     /**
      * Gets password.
      *
      * @return the password
      */
-    public String getPassword() { return this.password; }
+    public String getPassword() {
+        return this.password;
+    }
 
     /**
      * Sets password.
      *
      * @param password the password
      */
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
