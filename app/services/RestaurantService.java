@@ -100,20 +100,20 @@ public class RestaurantService extends BaseService {
         }
 
         if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
-            Double averageRating = (double) restaurantFilter.rating;
             List<RestaurantReview> restaurantReviews = getSession()
-                    .createSQLQuery("select * FROM restaurant_review GROUP BY " +
-                            "restaurant_review.id HAVING avg(rating) >= :averageRating")
+                    .createSQLQuery("select * FROM restaurant_review " +
+                            "GROUP BY restaurant_review.id " +
+                            "HAVING avg(rating) >= :averageRatingLow and avg(rating) < :averageRatingHigh")
                     .addEntity(RestaurantReview.class)
-                    .setParameter("averageRating", restaurantFilter.rating)
+                    .setParameter("averageRatingLow", getAverageRatingLow(restaurantFilter.rating))
+                    .setParameter("averageRatingHigh", getAverageRatingHigh(restaurantFilter.rating))
                     .list();
-            Set<UUID> restaurantsWithRating = new HashSet<>();
-
-            restaurantReviews.stream().forEach(review -> restaurantsWithRating.add(review.getRestaurantId()));
-
-            criteria.add(Restrictions.in("id", restaurantsWithRating));
+            if (restaurantReviews != null) {
+                Set<UUID> restaurantsWithRating = new HashSet<>();
+                restaurantReviews.stream().filter(Objects::nonNull).forEach(review -> restaurantsWithRating.add(review.getRestaurantId()));
+                criteria.add(Restrictions.in("id", restaurantsWithRating));
+            }
         }
-
 
         Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
@@ -127,22 +127,7 @@ public class RestaurantService extends BaseService {
 
         criteria.addOrder(Order.asc("name"));
 
-
         List<Restaurant> restaurants = criteria.list();
-/*
-        if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
-            Iterator<Restaurant> restaurantIterator = restaurants.iterator();
-            while (restaurantIterator.hasNext()) {
-                Restaurant restaurant = restaurantIterator.next();
-                System.out.println("Average rating is : " + restaurant.getAverageRating());
-                System.out.println("Rating filter is : " + restaurantFilter.rating);
-                System.out.println("Equals is : " + restaurant.getAverageRating().equals((double) restaurantFilter.rating));
-                if (!ratingMatchesFilter(restaurant.getAverageRating(), restaurantFilter.rating)) {
-                    restaurantIterator.remove();
-                }
-            }
-            restaurantIterator.forEachRemaining(restaurants::remove);
-        }*/
 
         switch (restaurantFilter.sortBy) {
             case "rating":
@@ -157,37 +142,38 @@ public class RestaurantService extends BaseService {
                 .setNumberOfPages(numberOfPages);
     }
 
-    private boolean ratingMatchesFilter(Double averageRating, Integer ratingFilter) {
+    private double getAverageRatingLow(Integer ratingFilter) {
         switch (ratingFilter) {
             case 1:
-                if (averageRating >= 0.25 && averageRating < 2) {
-                    return true;
-                }
-                break;
+                return 0.25;
             case 2:
-                if (averageRating >= 2 && averageRating < 3) {
-                    return true;
-                }
-                break;
+                return 2;
             case 3:
-                if (averageRating >= 3 && averageRating < 4) {
-                    return true;
-                }
-                break;
+                return 3;
             case 4:
-                if (averageRating >= 4 && averageRating < 4.75) {
-                    return true;
-                }
-                break;
-            case 5: {
-                if (averageRating >= 4.75) {
-                    return true;
-                }
-            }
-            break;
+                return 4;
+            case 5:
+                return 4.75;
+            default:
+                return 0;
         }
-        return false;
+    }
 
+    private double getAverageRatingHigh(Integer ratingFilter) {
+        switch (ratingFilter) {
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            case 3:
+                return 4;
+            case 4:
+                return 4.75;
+            case 5:
+                return 5.1;
+            default:
+                return 5.1;
+        }
     }
 
     /**
