@@ -15,123 +15,132 @@ import java.util.stream.Collectors;
  */
 public class ReservationInquiryResponse {
 
-	private static final String DATE_PATTERN = "HH:mm:ss";
+    private static final String DATE_PATTERN = "HH:mm:ss";
 
-	private ReservationForm inquiry;
-	private Long numberOfTablesLeft;
-	private Long numberOfReservationsToday;
-	private List<Time> timeSuggestions;
+    private ReservationForm inquiry;
+    private Long numberOfTablesLeft;
+    private Long numberOfReservationsToday;
+    private List<Time> timeSuggestions;
 
-	private final SimpleDateFormat df = new SimpleDateFormat(DATE_PATTERN);
+    private final SimpleDateFormat df = new SimpleDateFormat(DATE_PATTERN);
 
-	private  ReservationInquiryResponse() {}
+    private ReservationInquiryResponse() {
+    }
 
-	/**
-	 * Gets object.
-	 *
-	 * @return the object
-	 */
-	public static ReservationInquiryResponse getObject() {
-		return new ReservationInquiryResponse();
-	}
+    /**
+     * Gets object.
+     *
+     * @return the object
+     */
+    public static ReservationInquiryResponse getObject() {
+        return new ReservationInquiryResponse();
+    }
 
-	/**
-	 * Gets inquiry.
-	 *
-	 * @return the inquiry
-	 */
-	public ReservationForm getInquiry() { return this.inquiry; }
+    /**
+     * Gets inquiry.
+     *
+     * @return the inquiry
+     */
+    public ReservationForm getInquiry() {
+        return this.inquiry;
+    }
 
-	/**
-	 * Sets inquiry.
-	 *
-	 * @param inquiry the inquiry
-	 * @return the inquiry
-	 */
-	public ReservationInquiryResponse setInquiry(ReservationForm inquiry) {
-		this.inquiry = inquiry;
-		return this;
-	}
+    /**
+     * Sets inquiry.
+     *
+     * @param inquiry the inquiry
+     * @return the inquiry
+     */
+    public ReservationInquiryResponse setInquiry(ReservationForm inquiry) {
+        this.inquiry = inquiry;
+        return this;
+    }
 
-	/**
-	 * Gets number of tables left.
-	 *
-	 * @return the number of tables left
-	 */
-	public Long getNumberOfTablesLeft() { return this.numberOfTablesLeft; }
+    /**
+     * Gets number of tables left.
+     *
+     * @return the number of tables left
+     */
+    public Long getNumberOfTablesLeft() {
+        return this.numberOfTablesLeft;
+    }
 
-	/**
-	 * Sets number of tables left.
-	 *
-	 * @param numberOfTablesLeft the number of tables left
-	 * @return the number of tables left
-	 */
-	public ReservationInquiryResponse setNumberOfTablesLeft(Long numberOfTablesLeft) {
-		this.numberOfTablesLeft = numberOfTablesLeft;
-		return this;
-	}
+    /**
+     * Sets number of tables left.
+     *
+     * @param numberOfTablesLeft the number of tables left
+     * @return the number of tables left
+     */
+    public ReservationInquiryResponse setNumberOfTablesLeft(Long numberOfTablesLeft) {
+        this.numberOfTablesLeft = numberOfTablesLeft;
+        return this;
+    }
 
-	/**
-	 * Gets number of reservations today.
-	 *
-	 * @return the number of reservations today
-	 */
-	public Long getNumberOfReservationsToday() { return this.numberOfReservationsToday; }
+    /**
+     * Gets number of reservations today.
+     *
+     * @return the number of reservations today
+     */
+    public Long getNumberOfReservationsToday() {
+        return this.numberOfReservationsToday;
+    }
 
-	/**
-	 * Sets number of reservations today.
-	 *
-	 * @param numberOfReservationsToday the number of reservations today
-	 * @return the number of reservations today
-	 */
-	public ReservationInquiryResponse setNumberOfReservationsToday(Long numberOfReservationsToday) {
-		this.numberOfReservationsToday = numberOfReservationsToday;
-		return this;
-	}
+    /**
+     * Sets number of reservations today.
+     *
+     * @param numberOfReservationsToday the number of reservations today
+     * @return the number of reservations today
+     */
+    public ReservationInquiryResponse setNumberOfReservationsToday(Long numberOfReservationsToday) {
+        this.numberOfReservationsToday = numberOfReservationsToday;
+        return this;
+    }
 
-	/**
-	 * Gets time suggestions.
-	 *
-	 * @return the time suggestions
-	 */
-	public List<Time> getTimeSuggestions() { return this.timeSuggestions; }
+    /**
+     * Gets time suggestions.
+     *
+     * @return the time suggestions
+     */
+    public List<Time> getTimeSuggestions() {
+        return this.timeSuggestions;
+    }
 
-	public ReservationInquiryResponse setTimeSuggestions(Time timeSuggestion) {
-		this.setTimeSuggestions(Arrays.asList(timeSuggestion));
-		return this;
-	}
+    public ReservationInquiryResponse setTimeSuggestions(Time timeSuggestion) {
+        this.setTimeSuggestions(Arrays.asList(timeSuggestion));
+        return this;
+    }
 
-	/**
-	 * Sets time suggestions.
-	 *
-	 * @param timeSuggestions the time suggestions
-	 * @return the time suggestions
-	 */
-	@SuppressWarnings("unchecked")
-	public ReservationInquiryResponse setTimeSuggestions(final List<?> timeSuggestions) {
-		if (!timeSuggestions.isEmpty()) {
-			if (timeSuggestions.get(0) instanceof Time) {
-				this.setTimeSuggestionsFromTime((List<Time>) timeSuggestions);
-			} else if (timeSuggestions.get(0) instanceof String) {
-				this.setTimeSuggestionsFromString((List<String>) timeSuggestions);
-			}
-		}
-		return this;
-	}
+    /**
+     * Sets time suggestions.
+     *
+     * @param timeSuggestions the time suggestions
+     * @return the time suggestions
+     */
+    @SuppressWarnings("unchecked")
+    public ReservationInquiryResponse setTimeSuggestions(final List<?> timeSuggestions) {
+        if (!timeSuggestions.isEmpty()) {
+            if (timeSuggestions.get(0) instanceof Time) {
+                this.setTimeSuggestionsFromTime((List<Time>) timeSuggestions);
+            } else if (timeSuggestions.get(0) instanceof String) {
+                this.setTimeSuggestionsFromString((List<String>) timeSuggestions);
+            }
+        }
+        return this;
+    }
 
-	private void setTimeSuggestionsFromTime(final List<Time> timeSuggestions) {
-		this.timeSuggestions = timeSuggestions;
-	}
+    private void setTimeSuggestionsFromTime(final List<Time> timeSuggestions) {
+        this.timeSuggestions = timeSuggestions;
+    }
 
-	private void setTimeSuggestionsFromString(final List<String> timeSuggestions) {
-		this.timeSuggestions = timeSuggestions.stream().map(this::timeFromString).collect(Collectors.toList());
-	}
+    private void setTimeSuggestionsFromString(final List<String> timeSuggestions) {
+        this.timeSuggestions = timeSuggestions.stream().map(this::timeFromString).collect(Collectors.toList());
+    }
 
-	private Time timeFromString(final String timeString) {
-		try {
-			return new Time(df.parse(timeString).getTime());
-		} catch (ParseException e) {
-			return null;
-		}
-	}
+    private Time timeFromString(final String timeString) {
+        try {
+            return new Time(df.parse(timeString).getTime());
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 }

@@ -21,56 +21,71 @@ public class RegisterForm extends BaseModel {
     /**
      * Instantiates a new Register form.
      */
-    public RegisterForm() { }
+    public RegisterForm() {
+    }
 
     /**
      * Sets first name.
      *
      * @param firstName the first name
      */
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     /**
      * Sets last name.
      *
      * @param lastName the last name
      */
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     /**
      * Sets email.
      *
      * @param email the email
      */
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     /**
      * Sets password.
      *
      * @param password the password
      */
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     /**
      * Sets address.
      *
      * @param address the address
      */
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * Sets phone.
      *
      * @param phone the phone
      */
-    public void setPhone(String phone) { this.phone = phone; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     /**
      * Sets city id.
      *
      * @param cityId the city id
      */
-    public void setCityId(UUID cityId) { this.cityId = cityId; }
+    public void setCityId(UUID cityId) {
+        this.cityId = cityId;
+    }
 
     /**
      * Create account account.
