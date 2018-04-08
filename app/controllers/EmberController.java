@@ -9,14 +9,14 @@ import views.html.index;
  */
 public class EmberController extends Controller {
 
-	/**
-	 * Index result.
-	 *
-	 * @param slug the slug
-	 * @return the result
-	 */
-	public Result index(String slug) {
-		return ok(index.render());
-	}
+    /**
+     * Index result.
+     *
+     * @param slug the slug
+     * @return the result
+     */
+    public Result index(String slug) {
+        return ok(index.render());
+    }
 
 }

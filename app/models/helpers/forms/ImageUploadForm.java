@@ -16,35 +16,44 @@ public class ImageUploadForm extends BaseModel {
     /**
      * Instantiates a new Image upload form.
      */
-    public ImageUploadForm() {}
+    public ImageUploadForm() {
+    }
 
     /**
      * Gets restaurant id.
      *
      * @return the restaurant id
      */
-    public UUID getRestaurantId() { return restaurantId; }
+    public UUID getRestaurantId() {
+        return restaurantId;
+    }
 
     /**
      * Sets restaurant id.
      *
      * @param restaurantId the restaurant id
      */
-    public void setRestaurantId(UUID restaurantId) { this.restaurantId = restaurantId; }
+    public void setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 
     /**
      * Gets image type.
      *
      * @return the image type
      */
-    public String getImageType() { return imageType; }
+    public String getImageType() {
+        return imageType;
+    }
 
     /**
      * Sets image type.
      *
      * @param imageType the image type
      */
-    public void setImageType(String imageType) { this.imageType = imageType; }
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
 
     /**
      * Gets extension.
