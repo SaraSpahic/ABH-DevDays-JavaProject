@@ -14,10 +14,7 @@ import scala.Console;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -92,7 +89,7 @@ public class RestaurantService extends BaseService {
             criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
         }
 
-        if (restaurantFilter.cuisine != null && restaurantFilter.cuisine[0] != null && !restaurantFilter.cuisine[0].equalsIgnoreCase("") ) {
+        if (restaurantFilter.cuisine != null && restaurantFilter.cuisine[0] != null && !restaurantFilter.cuisine[0].equalsIgnoreCase("")) {
             Criteria cuisine = criteria.createCriteria("cuisines");
             Disjunction disjunction = Restrictions.disjunction();
             for (String singleCuisine : restaurantFilter.cuisine) {
@@ -103,7 +100,18 @@ public class RestaurantService extends BaseService {
         }
 
         if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
-            criteria.add(Restrictions.sqlRestriction("SELECT AVG(rating) FROM restaurant_review WHERE restaurant_id={id}"));
+            Double averageRating = (double) restaurantFilter.rating;
+            List<RestaurantReview> restaurantReviews = getSession()
+                    .createSQLQuery("select * FROM restaurant_review GROUP BY " +
+                            "restaurant_review.id HAVING avg(rating) >= :averageRating")
+                    .addEntity(RestaurantReview.class)
+                    .setParameter("averageRating", restaurantFilter.rating)
+                    .list();
+            Set<UUID> restaurantsWithRating = new HashSet<>();
+
+            restaurantReviews.stream().forEach(review -> restaurantsWithRating.add(review.getRestaurantId()));
+
+            criteria.add(Restrictions.in("id", restaurantsWithRating));
         }
 
 
