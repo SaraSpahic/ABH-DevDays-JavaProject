@@ -65,6 +65,9 @@ GET     /api/v1/getAllCities                                controllers.CityCont
 
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
 
+POST    /api/v1/fileUpload                                  controllers.AdministratorController.fileUpload
+OPTIONS /api/v1/fileUpload                                  controllers.AdministratorController.checkPreFlight
+
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 
 GET     /assets/*file                                       controllers.Assets.at(path="/public/assets", file)
