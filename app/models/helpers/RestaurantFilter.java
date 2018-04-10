@@ -30,6 +30,22 @@ public class RestaurantFilter {
      */
     public String sortBy;
 
+    /**
+     * The Price.
+     */
+    public int price;
+
+    /**
+     * The Rating.
+     */
+    public Integer rating;
+
+
+    /**
+     * The Cuisine.
+     */
+    public String[] cuisine;
+
     private RestaurantFilter() {
     }
 
@@ -94,6 +110,44 @@ public class RestaurantFilter {
      */
     public RestaurantFilter setCityFilter(UUID cityId) throws ServiceException {
         this.cityId = cityId;
+        return this;
+    }
+
+    /**
+     * Sets price filter.
+     *
+     * @param price the price
+     * @return the price filter
+     * @throws ServiceException the service exception
+     */
+    public RestaurantFilter setPriceFilter(int price) throws ServiceException {
+        this.price = price;
+        return this;
+    }
+
+
+    /**
+     * Sets rating filter.
+     *
+     * @param rating the rating
+     * @return the rating filter
+     * @throws ServiceException the service exception
+     */
+    public RestaurantFilter setRatingFilter(Integer rating) throws ServiceException {
+        this.rating = rating;
+        return this;
+    }
+
+
+    /**
+     * Sets cuisine filter.
+     *
+     * @param cuisine the cuisine
+     * @return the cuisine filter
+     * @throws ServiceException the service exception
+     */
+    public RestaurantFilter setCuisineFilter(String[] cuisine) throws ServiceException {
+        this.cuisine = cuisine;
         return this;
     }
 

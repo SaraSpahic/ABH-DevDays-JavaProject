@@ -6,22 +6,16 @@ import models.helpers.PopularRestaurantsBean;
 import models.helpers.RestaurantFilter;
 import models.helpers.forms.ImageUploadForm;
 import models.helpers.forms.ReviewForm;
-import models.tables.Reservation;
-import models.tables.Restaurant;
-import models.tables.RestaurantReview;
-import models.tables.User;
+import models.tables.*;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
+import scala.Console;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -91,6 +85,36 @@ public class RestaurantService extends BaseService {
             criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
         }
 
+        if (restaurantFilter.price != 0) {
+            criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+        }
+
+        if (restaurantFilter.cuisine != null && restaurantFilter.cuisine[0] != null && !restaurantFilter.cuisine[0].equalsIgnoreCase("")) {
+            Criteria cuisine = criteria.createCriteria("cuisines");
+            Disjunction disjunction = Restrictions.disjunction();
+            for (String singleCuisine : restaurantFilter.cuisine) {
+                disjunction.add(Restrictions.eq("name", singleCuisine));
+                System.out.println("Current cuisine:" + singleCuisine);
+            }
+            cuisine.add(disjunction);
+        }
+
+        if (restaurantFilter.rating != null && restaurantFilter.rating != 0) {
+            List<RestaurantReview> restaurantReviews = getSession()
+                    .createSQLQuery("select * FROM restaurant_review " +
+                            "GROUP BY restaurant_review.id " +
+                            "HAVING avg(rating) >= :averageRatingLow and avg(rating) < :averageRatingHigh")
+                    .addEntity(RestaurantReview.class)
+                    .setParameter("averageRatingLow", getAverageRatingLow(restaurantFilter.rating))
+                    .setParameter("averageRatingHigh", getAverageRatingHigh(restaurantFilter.rating))
+                    .list();
+            if (restaurantReviews != null) {
+                Set<UUID> restaurantsWithRating = new HashSet<>();
+                restaurantReviews.stream().filter(Objects::nonNull).forEach(review -> restaurantsWithRating.add(review.getRestaurantId()));
+                criteria.add(Restrictions.in("id", restaurantsWithRating));
+            }
+        }
+
         Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
         criteria.setProjection(null)
@@ -116,6 +140,40 @@ public class RestaurantService extends BaseService {
                 .setPageSize(restaurantFilter.pageSize)
                 .setModel(restaurants)
                 .setNumberOfPages(numberOfPages);
+    }
+
+    private double getAverageRatingLow(Integer ratingFilter) {
+        switch (ratingFilter) {
+            case 1:
+                return 0.25;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 4.75;
+            default:
+                return 0;
+        }
+    }
+
+    private double getAverageRatingHigh(Integer ratingFilter) {
+        switch (ratingFilter) {
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            case 3:
+                return 4;
+            case 4:
+                return 4.75;
+            case 5:
+                return 5.1;
+            default:
+                return 5.1;
+        }
     }
 
     /**

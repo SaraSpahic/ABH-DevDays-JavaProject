@@ -66,6 +66,7 @@ GET     /api/v1/getAllCities                                controllers.CityCont
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
 
 POST    /api/v1/fileUpload                                  controllers.AdministratorController.fileUpload
+GET     /api/v1/admin/getStatistics                         controllers.AdministratorController.getStatistics
 OPTIONS /api/v1/fileUpload                                  controllers.AdministratorController.checkPreFlight
 
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
