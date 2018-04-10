@@ -255,7 +255,7 @@
                 {{/if}}
                 {{fa-icon "fa-cloud-upload"}}Upload Gallery Photo
               </label>
-              {{file-upload id="galleryImage" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="gallery" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
+              {{file-upload id="galleryImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="gallery" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
             </div>
           </div>
 
