@@ -69,7 +69,7 @@ export default Ember.Controller.extend({
       this.set('model.restaurant.latitude', this.get('marker').getPosition().lat());
       this.set('model.restaurant.longitude', this.get('marker').getPosition().lng());
 
-      if (this.get('marker').getPosition() === this.get('defaultMerkerPosition')) {
+      if (this.get('marker').getPosition() === this.get('defaultMarkerPosition')) {
         return alert('Please Move the Map Marker to the correct position');
       }
 
@@ -78,7 +78,7 @@ export default Ember.Controller.extend({
         return alert('Marker out of Bounds. Please position the marker within the selected City.');
       }
 
-      if (this.get('uploadProgressProfile') !== null || this.get('uploadProgressCover') !== null) {
+      if (this.get('uploadProgressProfile') !== null || this.get('uploadProgressCover') !== null  || this.get('uploadProgressGallery') !== null) {
         return alert('Please wait for upload to finish');
       }
 
@@ -126,8 +126,19 @@ export default Ember.Controller.extend({
           extension: fileExtension,
         },
       })
-      .then((response) => this.set(response.imageFor === 'profile' ? 'model.restaurant.profileImagePath' : 'model.restaurant.coverImagePath', response.url));
-    },
+      .then((response) => {
+        if (response.imageFor === 'profile') {
+          this.set('model.restaurant.profileImagePath', response.url)
+      }
+      else if (response.imageFor === 'cover') {
+        this.set('model.restaurant.coverImagePath', response.url)
+
+      }
+      else {
+        this.get('model.restaurant.photos').pushObject({ id: null, restaurantId: this.get('model.restaurant.id'), path: response.url});
+      }
+    })
+},
 
     addMenuBreakfast() {
       let menu = this.get('model.restaurant.menu.breakfast');

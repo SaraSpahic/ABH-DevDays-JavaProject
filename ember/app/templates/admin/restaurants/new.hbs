@@ -28,7 +28,7 @@
                     {{/if}}
                     {{fa-icon "fa-cloud-upload"}}Upload Logo
                   </label>
-                  {{file-upload id="profileImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
+                  {{file-upload id="profileImageUpload" url="/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
@@ -53,7 +53,7 @@
                 {{/if}}
                 {{fa-icon "fa-cloud-upload"}}Upload Cover Photo
               </label>
-              {{file-upload id="coverImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="cover" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
+              {{file-upload id="coverImageUpload" url="/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="cover" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
             {{textarea class="form-input" type="text" placeholder="Description" value=model.restaurant.description required="required"}}
           </div>
           <div class="col-xs-12 col-sm-6 small-map">
-            {{google-map marker=marker polygon=polygon defaultMerkerPosition=defaultMerkerPosition bounds=model.restaurant.city.bounds markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude editableMarker=true}}
+            {{google-map marker=marker polygon=polygon defaultMarkerPosition=defaultMarkerPosition bounds=model.restaurant.city.bounds markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude editableMarker=true}}
           </div>
         </div>
         <div class="row">
@@ -238,6 +238,12 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
       </div>
       </div>
         <div role="tabpanel" class="tab-pane" id="gallery">
@@ -255,22 +261,17 @@
                 {{/if}}
                 {{fa-icon "fa-cloud-upload"}}Upload Gallery Photo
               </label>
-              {{file-upload id="galleryImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="gallery" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
+              {{file-upload id="galleryImageUpload" url="/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="gallery" progress=uploadProgressGallery onFinishedUpload=(action 'uploadedImage')}}
             </div>
           </div>
-
+          <div class="row">
+            <div class="col-xs-12" style="text-align: right">
+              {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+              <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+            </div>
+          </div>
           </div>
         </div>
-
-
-
-        <div class="row">
-          <div class="col-xs-12" style="text-align: right">
-            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
-            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
-          </div>
-        </div>
-
 
   </div>
 
