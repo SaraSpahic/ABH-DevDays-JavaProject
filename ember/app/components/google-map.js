@@ -41,7 +41,7 @@ export default Ember.Component.extend({
 
     if (this.get('markerLat') === 0 && this.get('markerLng') === 0) {
       markerPosition = zoomBounds.getCenter();
-      this.set('defaultMerkerPosition', markerPosition);
+      this.set('defaultMarkerPosition', markerPosition);
     } else {
       markerPosition = new google.maps.LatLng(this.get('markerLat'), this.get('markerLng'));
     }

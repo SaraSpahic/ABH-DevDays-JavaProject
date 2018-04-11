@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class RestaurantService extends BaseService {
 
-    private static final String AWS_BASE_PATH = "https://abhrestaurants.s3.amazonaws.com/";
+    private static final String AWS_BASE_PATH = "/assets/images/";
 
     @Inject
     private RestaurantService() {
@@ -306,8 +306,14 @@ public class RestaurantService extends BaseService {
 
         if (imageUploadForm.getImageType().equals("profile")) {
             restaurant.setProfileImagePath(newImagePath);
-        } else {
+        } else if (imageUploadForm.getImageType().equals("cover")) {
             restaurant.setCoverImagePath(newImagePath);
+        }
+        else {
+            RestaurantPhoto photo= new RestaurantPhoto();
+            photo.setRestaurantId(restaurant.getId());
+            photo.setPath(newImagePath);
+            restaurant.getPhotos().add(photo);
         }
 
         getSession().update(restaurant);
