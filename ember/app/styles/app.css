@@ -1553,6 +1553,16 @@ footer {
     margin-bottom: 10px;
   }
 
+  .admin-form-image-gallery {
+    position: relative;
+    height: 160px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    margin-top: -15px;
+    margin-bottom: 10px;
+  }
+
 .nav-pills a {
   color: rgba(19, 29, 36, 0.4);
   font-size: 16px;

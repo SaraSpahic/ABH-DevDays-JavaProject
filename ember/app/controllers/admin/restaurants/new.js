@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
 
   uploadProgressProfile: null,
   uploadProgressCover: null,
+  uploadProgressGallery: null,
   trueClass: 'full',
   falseClass: 'empty',
 
