@@ -4,9 +4,7 @@
     <li role="presentation"><a href="#cuisine" aria-controls="cuisine" role="tab" data-toggle="tab">Cuisines</a></li>
     <li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
     <li role="presentation"><a href="#menu" aria-controls="menu" role="tab" data-toggle="tab">Menu</a></li>
-    {{#if model.isEdit}}
     <li role="presentation"><a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">Gallery</a></li>
-    {{/if}}
   </ul>
 </div>
 
@@ -254,24 +252,16 @@
         <h1 class="admin-from-title">Gallery</h1>
 
         <div class="admin-form-photos-add">
-          <div class="admin-form-image-gallery" style={{galleryImageStyle}}>
-          <label class="image-upload-label" for="galleryImageUpload" >
-            {{log 'Im here'}}
-            {{#if uploadProgressGallery}}
-              <p class="image-upload-progress">
-                {{log 'Im here 1.5'}}
-                Uploading: {{uploadProgressGallery}}%
-              </p>
-              {{log 'Im here 2'}}
-            {{/if}}
-            {{fa-icon "fa-cloud-upload"}}Upload Gallery Photo
-          </label>
-          {{file-upload id="galleryImageUpload"
-            url="/api/v1/fileUpload"
-            restaurantId=model.restaurant.id
-            imageFor="gallery"
-            progress=uploadProgressGallery
-            onFinishedUpload=(action 'uploadedImage')}}
+          <div class="admin-form-image-gallery">
+            <label class="image-upload-label" for="galleryImageUpload">
+              {{#if uploadProgressGallery}}
+                <p class="image-upload-progress">
+                  Uploading: {{uploadProgressGallery}}%
+                </p>
+              {{/if}}
+              {{fa-icon "fa-cloud-upload"}}Upload Gallery Photo
+            </label>
+            {{file-upload id="galleryImageUpload" url="/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="gallery" progress=uploadProgressGallery onFinishedUpload=(action 'uploadedImage')}}
         </div>
       </div>
 
@@ -281,7 +271,6 @@
             <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
