@@ -75,8 +75,16 @@ CREATE TABLE IF NOT EXISTS restaurant_photo (
 	photo_path character varying(256) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS activity_log (
+	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  timestamp timestamp without time zone NOT NULL,
+	activity_type character varying(256) NOT NULL,
+	description text
+);
+
 # --- !Downs
 
+DROP TABLE IF EXISTS activity_log;
 DROP TABLE IF EXISTS restaurant_photo;
 DROP TABLE IF EXISTS restaurant_cuisine;
 DROP TABLE IF EXISTS cuisine;

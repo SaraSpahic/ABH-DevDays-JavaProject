@@ -1,5 +1,7 @@
 package services;
 
+import models.helpers.ActivityType;
+import models.tables.ActivityLog;
 import org.hibernate.Session;
 import org.hibernate.jpa.HibernateEntityManager;
 import play.db.jpa.JPA;
@@ -38,6 +40,11 @@ abstract class BaseService {
      */
     byte[] base64Decode(final String string) {
         return Base64.getDecoder().decode(string);
+    }
+
+    public void logActivity(ActivityType activityType, String description) {
+        ActivityLog activityLog = new ActivityLog(activityType, description);
+        getSession().save(activityLog);
     }
 
 }
