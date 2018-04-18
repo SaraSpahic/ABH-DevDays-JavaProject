@@ -20,7 +20,7 @@ public class ActivityLog extends BaseModel {
     @Column(name = "timestamp")
     private Timestamp timestamp;
 
-    @Column(name = "type")
+    @Column(name = "activity_type")
     private ActivityType activityType;
 
     @Column(name = "description")
@@ -30,8 +30,10 @@ public class ActivityLog extends BaseModel {
     }
 
     public ActivityLog(ActivityType type, String description) {
-        id = UUID.randomUUID();
-        timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.id = UUID.randomUUID();
+        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.activityType = type;
+        this.description = description;
     }
 
     public UUID getId() {

@@ -1,5 +1,6 @@
 package services;
 
+import models.helpers.ActivityType;
 import models.tables.Cuisine;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -65,6 +66,7 @@ public class CuisineService extends BaseService {
      */
     public Boolean createCuisine(final Cuisine cuisine) {
         getSession().save(cuisine);
+        logActivity(ActivityType.ADMIN_CREATE, "Cuisine " + cuisine.getName() + " has been added by the administrator.");
         return true;
     }
 
@@ -76,6 +78,7 @@ public class CuisineService extends BaseService {
      */
     public Boolean editCuisine(final Cuisine cuisine) {
         getSession().update(cuisine);
+        logActivity(ActivityType.ADMIN_EDIT, "Cuisine " + cuisine.getName() + " has been edited by the administrator.");
         return true;
     }
 
@@ -91,6 +94,7 @@ public class CuisineService extends BaseService {
                 .uniqueResult();
 
         getSession().delete(cuisine);
+        logActivity(ActivityType.ADMIN_DELETE, "Cuisine " + cuisine.getName() + " has been deleted by the administrator.");
         return true;
     }
 }

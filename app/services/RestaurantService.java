@@ -1,9 +1,7 @@
 package services;
 
-import models.helpers.PaginationAdapter;
-import models.helpers.PopularLocation;
-import models.helpers.PopularRestaurantsBean;
-import models.helpers.RestaurantFilter;
+import controllers.RestaurantController;
+import models.helpers.*;
 import models.helpers.forms.ImageUploadForm;
 import models.helpers.forms.ReviewForm;
 import models.tables.*;
@@ -38,6 +36,7 @@ public class RestaurantService extends BaseService {
      */
     public Boolean createRestaurant(final Restaurant restaurant) throws Exception {
         getSession().save(restaurant);
+        logActivity(ActivityType.ADMIN_CREATE, "Restaurant " + restaurant.getName() + " has been added by the administrator.");
         return true;
     }
 
@@ -49,6 +48,7 @@ public class RestaurantService extends BaseService {
      */
     public Boolean editRestaurant(final Restaurant restaurant) throws Exception {
         getSession().merge(restaurant);
+        logActivity(ActivityType.ADMIN_EDIT, "Restaurant " + restaurant.getName() + " has been edited by the administrator.");
         return true;
     }
 
@@ -62,7 +62,7 @@ public class RestaurantService extends BaseService {
         Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
-
+        logActivity(ActivityType.ADMIN_DELETE, "Restaurant " + restaurant.getName() + " has been deleted by the administrator.");
         getSession().delete(restaurant);
         return true;
     }
@@ -274,8 +274,8 @@ public class RestaurantService extends BaseService {
             restaurantReview.setReview(reviewForm.getReviewText());
             restaurantReview.setRating(reviewForm.getReviewScore());
         }
-
         getSession().save(restaurantReview);
+        logActivity(ActivityType.REVIEW_POST, "A review has been posted for restaurant " + this.getRestaurantWithId(reviewForm.getRestaurantId()).getName());
         return true;
     }
 
@@ -311,6 +311,7 @@ public class RestaurantService extends BaseService {
         }
 
         getSession().update(restaurant);
+        logActivity(ActivityType.REVIEW_POST, "Image has been updated for restaurant " + this.getRestaurantWithId(imageUploadForm.getRestaurantId()).getName());
         return "{ \"imageFor\": \"" + imageUploadForm.getImageType() + "\", \"url\": \"" + newImagePath + "\"}";
     }
 }

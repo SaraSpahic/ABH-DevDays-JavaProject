@@ -66,6 +66,7 @@ GET     /api/v1/getAllCities                                controllers.CityCont
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
 
 GET     /api/v1/admin/getStatistics                         controllers.AdministratorController.getStatistics
+GET     /api/v1/admin/getActivityLogs                       controllers.AdministratorController.getActivityLogs
 
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 

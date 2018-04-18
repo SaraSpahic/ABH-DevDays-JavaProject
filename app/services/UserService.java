@@ -1,6 +1,7 @@
 package services;
 
 import exceptions.ServiceException;
+import models.helpers.ActivityType;
 import models.helpers.forms.LoginForm;
 import models.helpers.forms.RegisterForm;
 import models.tables.User;
@@ -41,6 +42,7 @@ public class UserService extends BaseService {
                             )
                     )
             )) {
+                logActivity(ActivityType.USER_LOGIN, "A user has logged in.");
                 return get(loginForm.getEmail());
             } else {
                 throw new ServiceException("Login Error", "Invalid Password");
@@ -60,6 +62,7 @@ public class UserService extends BaseService {
         try {
             User newUser = registerForm.createAccount();
             getSession().save(newUser);
+            logActivity(ActivityType.USER_REGISTER, "New user has registered for the website.");
             return newUser;
         } catch (Exception e) {
             throw e;
@@ -134,6 +137,7 @@ public class UserService extends BaseService {
             dbUser.setIsAdmin(user.getIsAdmin());
 
             getSession().update(dbUser);
+            logActivity(ActivityType.ADMIN_EDIT, "A user has been edited by the administrator.");
             return true;
         }
         return false;
@@ -150,8 +154,8 @@ public class UserService extends BaseService {
         User user = (User) getSession().createCriteria(User.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
-
         getSession().delete(user);
+        logActivity(ActivityType.ADMIN_DELETE, "A user has been deleted by the administrator.");
         return true;
     }
 }

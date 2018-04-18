@@ -1,5 +1,6 @@
 package services;
 
+import models.helpers.ActivityType;
 import models.helpers.ReservationInquiryResponse;
 import models.helpers.UserReservations;
 import models.helpers.forms.ReservationConfirmationForm;
@@ -176,6 +177,7 @@ public class ReservationService extends BaseService {
      */
     public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception {
         getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
+        logActivity(ActivityType.RESERVATION_CONFIRM, "A user has made a reservation.");
         return true;
     }
 

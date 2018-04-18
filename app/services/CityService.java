@@ -1,5 +1,6 @@
 package services;
 
+import models.helpers.ActivityType;
 import models.tables.City;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -53,6 +54,7 @@ public class CityService extends BaseService {
      */
     public Boolean createCity(final City city) throws Exception {
         getSession().save(city);
+        logActivity(ActivityType.ADMIN_CREATE, "City " + city.getName() + " has been added by the administrator.");
         return true;
     }
 
@@ -64,6 +66,7 @@ public class CityService extends BaseService {
      */
     public Boolean editCity(final City city) throws Exception {
         getSession().update(city);
+        logActivity(ActivityType.ADMIN_EDIT, "City " + city.getName() + " has been edited by the administrator.");
         return true;
     }
 
@@ -79,6 +82,7 @@ public class CityService extends BaseService {
                 .uniqueResult();
 
         getSession().delete(city);
+        logActivity(ActivityType.ADMIN_DELETE, "City " + city.getName() + " has been deleted by the administrator.");
         return true;
     }
 }
