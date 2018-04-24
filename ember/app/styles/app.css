@@ -1564,6 +1564,7 @@ footer {
   }
 
   .admin-gallery-photo {
+    position: relative;
     height: auto;
     width: 90%;
     margin-bottom: 10px;

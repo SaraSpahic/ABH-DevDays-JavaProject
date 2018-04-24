@@ -161,11 +161,26 @@
               </div>
             </div>
           </div>
+
+          <div id="gallery" class="restaurant-card">
+            <h2 class="restaurant-card-title">Gallery</h2>
+            <div class = "row">
+              {{#each model.restaurant.photos as |photo|}}
+              <div class="col-md-3" style = "padding:0px">
+                <img src = "{{photo.thumb}}" class = 'admin-gallery-photo' />
+              </div>
+              {{/each}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="submitRatingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel">
