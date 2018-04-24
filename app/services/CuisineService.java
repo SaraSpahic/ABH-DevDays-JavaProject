@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
 public class CuisineService extends BaseService {
 
     private static final String ORDER_KEY = "name";
+    private static final String LOG_CREATE = "has been added by the administrator.";
+    private static final String LOG_DELETE = "has been deleted by the administrator.";
+    private static final String LOG_EDIT = "has been edited by the administrator.";
 
     @Inject
     private CuisineService() {
@@ -66,7 +69,7 @@ public class CuisineService extends BaseService {
      */
     public Boolean createCuisine(final Cuisine cuisine) {
         getSession().save(cuisine);
-        logActivity(ActivityType.ADMIN_CREATE, "Cuisine " + cuisine.getName() + " has been added by the administrator.");
+        logActivity(ActivityType.ADMIN_CREATE,  cuisine.getName() + LOG_CREATE);
         return true;
     }
 
@@ -78,7 +81,7 @@ public class CuisineService extends BaseService {
      */
     public Boolean editCuisine(final Cuisine cuisine) {
         getSession().update(cuisine);
-        logActivity(ActivityType.ADMIN_EDIT, "Cuisine " + cuisine.getName() + " has been edited by the administrator.");
+        logActivity(ActivityType.ADMIN_EDIT, cuisine.getName() + LOG_EDIT);
         return true;
     }
 
@@ -94,7 +97,7 @@ public class CuisineService extends BaseService {
                 .uniqueResult();
 
         getSession().delete(cuisine);
-        logActivity(ActivityType.ADMIN_DELETE, "Cuisine " + cuisine.getName() + " has been deleted by the administrator.");
+        logActivity(ActivityType.ADMIN_DELETE, cuisine.getName() + LOG_DELETE);
         return true;
     }
 }

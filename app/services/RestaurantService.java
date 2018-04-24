@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
 public class RestaurantService extends BaseService {
 
     private static final String AWS_BASE_PATH = "https://abhrestaurants.s3.amazonaws.com/";
+    private static final String LOG_CREATE = "has been added by the administrator.";
+    private static final String LOG_DELETE = "has been deleted by the administrator.";
+    private static final String LOG_EDIT = "has been edited by the administrator.";
+    private static final String LOG_REVIEW = "A review has been posted for restaurant ";
+    private static final String LOG_IMAGE = "Image has been updated for restaurant ";
 
     @Inject
     private RestaurantService() {
@@ -36,7 +41,7 @@ public class RestaurantService extends BaseService {
      */
     public Boolean createRestaurant(final Restaurant restaurant) throws Exception {
         getSession().save(restaurant);
-        logActivity(ActivityType.ADMIN_CREATE, "Restaurant " + restaurant.getName() + " has been added by the administrator.");
+        logActivity(ActivityType.ADMIN_CREATE,  restaurant.getName() + LOG_CREATE);
         return true;
     }
 
@@ -48,7 +53,7 @@ public class RestaurantService extends BaseService {
      */
     public Boolean editRestaurant(final Restaurant restaurant) throws Exception {
         getSession().merge(restaurant);
-        logActivity(ActivityType.ADMIN_EDIT, "Restaurant " + restaurant.getName() + " has been edited by the administrator.");
+        logActivity(ActivityType.ADMIN_EDIT, restaurant.getName() + LOG_EDIT);
         return true;
     }
 
@@ -62,7 +67,7 @@ public class RestaurantService extends BaseService {
         Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
-        logActivity(ActivityType.ADMIN_DELETE, "Restaurant " + restaurant.getName() + " has been deleted by the administrator.");
+        logActivity(ActivityType.ADMIN_DELETE, restaurant.getName() + LOG_DELETE);
         getSession().delete(restaurant);
         return true;
     }
@@ -275,7 +280,7 @@ public class RestaurantService extends BaseService {
             restaurantReview.setRating(reviewForm.getReviewScore());
         }
         getSession().save(restaurantReview);
-        logActivity(ActivityType.REVIEW_POST, "A review has been posted for restaurant " + this.getRestaurantWithId(reviewForm.getRestaurantId()).getName());
+        logActivity(ActivityType.REVIEW_POST, LOG_REVIEW + this.getRestaurantWithId(reviewForm.getRestaurantId()).getName());
         return true;
     }
 
@@ -311,7 +316,7 @@ public class RestaurantService extends BaseService {
         }
 
         getSession().update(restaurant);
-        logActivity(ActivityType.REVIEW_POST, "Image has been updated for restaurant " + this.getRestaurantWithId(imageUploadForm.getRestaurantId()).getName());
+        logActivity(ActivityType.REVIEW_POST, LOG_IMAGE + this.getRestaurantWithId(imageUploadForm.getRestaurantId()).getName());
         return "{ \"imageFor\": \"" + imageUploadForm.getImageType() + "\", \"url\": \"" + newImagePath + "\"}";
     }
 }
