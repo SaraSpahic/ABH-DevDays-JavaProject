@@ -1563,6 +1563,13 @@ footer {
     margin-bottom: 10px;
   }
 
+  .admin-gallery-photo {
+    height: auto;
+    width: 90%;
+    margin-bottom: 10px;
+  }
+
+
 .nav-pills a {
   color: rgba(19, 29, 36, 0.4);
   font-size: 16px;

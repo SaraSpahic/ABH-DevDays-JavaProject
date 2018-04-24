@@ -265,6 +265,14 @@
         </div>
       </div>
 
+      <div>
+        {{#each model.restaurant.photos as |photo|}}
+        <div class="col-md-3" style = "padding:0px">
+          <img src = "{{photo.thumb}}" class = 'admin-gallery-photo' />
+        </div>
+        {{/each}}
+      </div>
+
         <div class="row">
           <div class="col-xs-12" style="text-align: right">
             {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}

@@ -37,22 +37,22 @@ public class AdministratorController extends BaseController {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         String restaurantId = body.asFormUrlEncoded().get("restaurantId")[0];
         String imageType = body.asFormUrlEncoded().get("imageType")[0];
+        String timestamp = body.asFormUrlEncoded().get("timestamp")[0];
         String savePath = "public/assets/images/";
         Http.MultipartFormData.FilePart<File> picture = body.getFile("file");
         if (picture != null) {
-            String fileName = picture.getFilename();
-            String contentType = picture.getContentType();
             File file = picture.getFile();
-            String thumbnailPath = savePath + restaurantId + "thumb" + fileName;
-            //saveScaledImage(file.getPath(),thumbnailPath);
             String imagePath;
             if (imageType.equals("profile") || imageType.equals("cover")) {
-                imagePath = savePath + restaurantId + "-" + imageType + ".jpg";
+                imagePath = savePath + restaurantId + "-" + imageType;
 
             } else {
-                imagePath = savePath + restaurantId + "-" + imageType + ".jpg" ;
+                imagePath = savePath + restaurantId + "-" + timestamp + "-" + imageType;
+                String thumbnailPath = imagePath + "-thumb.jpg";
+                saveScaledImage(file.getPath(),thumbnailPath);
             }
-            Path temp = Files.move(file.toPath(), Paths.get(imagePath));
+            imagePath += ".jpg";
+            Files.move(file.toPath(), Paths.get(imagePath));
             return ok("File uploaded");
         } else {
             flash("error", "Missing file");
@@ -83,7 +83,7 @@ public class AdministratorController extends BaseController {
                 Image scaledImage = sourceImage.getScaledInstance((int) percentWidth, 200, Image.SCALE_SMOOTH);
                 img.createGraphics().drawImage(scaledImage, 0, 0, null);
                 BufferedImage img2 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-                img2 = img.getSubimage((int) ((percentWidth - 100) / 2), 0, 200, 200);
+                img2 = img.getSubimage((int) ((percentWidth - 200) / 2), 0, 200, 200);
 
                 ImageIO.write(img2, "jpg", new File(outputFile));
             } else {
@@ -94,7 +94,7 @@ public class AdministratorController extends BaseController {
                 Image scaledImage = sourceImage.getScaledInstance(200, (int) percentHight, Image.SCALE_SMOOTH);
                 img.createGraphics().drawImage(scaledImage, 0, 0, null);
                 BufferedImage img2 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-                img2 = img.getSubimage(0, (int) ((percentHight - 100) / 2), 200, 200);
+                img2 = img.getSubimage(0, (int) ((percentHight - 200) / 2), 200, 200);
 
                 ImageIO.write(img2, "jpg", new File(outputFile));
             }

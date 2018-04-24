@@ -72,7 +72,8 @@ CREATE TABLE IF NOT EXISTS restaurant_review (
 CREATE TABLE IF NOT EXISTS restaurant_photo (
 	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	restaurant_id UUID NOT NULL REFERENCES restaurant(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-	photo_path character varying(256) NOT NULL
+	photo_path character varying(256) NOT NULL,
+	thumb_path character varying(256)
 );
 
 # --- !Downs

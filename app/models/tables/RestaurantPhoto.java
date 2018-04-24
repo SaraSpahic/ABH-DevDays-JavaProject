@@ -27,7 +27,11 @@ public class RestaurantPhoto extends BaseModel {
 	@Column(name = "photo_path")
 	private String path;
 
+	@Column(name = "thumb_path")
+	private String thumb;
+
 	/**
+
 	 * Instantiates a new Restaurant photo.
 	 */
 	public RestaurantPhoto() { }
@@ -73,4 +77,12 @@ public class RestaurantPhoto extends BaseModel {
 	 * @param path the path
 	 */
 	public void setPath(String path) { this.path = path; }
+
+	public String getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
 }

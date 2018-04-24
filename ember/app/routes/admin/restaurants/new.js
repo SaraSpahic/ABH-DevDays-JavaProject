@@ -15,5 +15,6 @@ export default Ember.Route.extend({
     model.restaurant.priceRange = 1;
     model.restaurant.cuisines = [];
     model.restaurant.tables = [];
+    model.restaurant.photos = [];
   },
 });

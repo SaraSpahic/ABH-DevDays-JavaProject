@@ -116,7 +116,7 @@ export default Ember.Controller.extend({
       this.set('model.restaurant.longitude', newLong);
     },
 
-    uploadedImage(imageFor, fileExtension) {
+    uploadedImage(imageFor, fileExtension, timestamp) {
       this.get('ajax').patch('/admin/updatePicture', {
         xhrFields: {
           withCredentials: true,
@@ -125,6 +125,7 @@ export default Ember.Controller.extend({
           restaurantId: this.get('model.restaurant.id'),
           imageType: imageFor,
           extension: fileExtension,
+          timestamp: timestamp,
         },
       })
       .then((response) => {
@@ -133,10 +134,9 @@ export default Ember.Controller.extend({
       }
       else if (response.imageFor === 'cover') {
         this.set('model.restaurant.coverImagePath', response.url)
-
       }
       else {
-        this.get('model.restaurant.photos').pushObject({ id: null, restaurantId: this.get('model.restaurant.id'), path: response.url});
+        this.get('model.restaurant.photos').pushObject(JSON.parse(response))
       }
     })
 },

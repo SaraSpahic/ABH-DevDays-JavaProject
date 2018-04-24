@@ -310,10 +310,13 @@ public class RestaurantService extends BaseService {
             restaurant.setCoverImagePath(newImagePath);
         }
         else {
+            newImagePath = AWS_BASE_PATH + imageUploadForm.getRestaurantId() + "-" + imageUploadForm.getTimestamp()+ "-" + imageUploadForm.getImageType() + "." + imageUploadForm.getExtension();
+            String thumbPath = AWS_BASE_PATH + imageUploadForm.getRestaurantId() + "-" + imageUploadForm.getTimestamp()+ "-" + imageUploadForm.getImageType() + "-thumb" + "." + imageUploadForm.getExtension();
             RestaurantPhoto photo= new RestaurantPhoto();
             photo.setRestaurantId(restaurant.getId());
             photo.setPath(newImagePath);
-            restaurant.getPhotos().add(photo);
+            photo.setThumb(thumbPath);
+            getSession().persist(photo);
         }
 
         getSession().update(restaurant);
