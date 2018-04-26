@@ -44,3 +44,18 @@
     {{/link-to}}
   </div>
 </div>
+
+<div class="row">
+
+<h2>Activity log</h2>
+
+<div class = "log-list">
+  {{#each model.acitvitylogs as |log|}}
+<div class = "log-item">
+  <i class=this.getIcon></i>
+  <span>{{log.description}}</span>
+  <span>{{log.activityType}}</span>
+  </div>
+  {{/each}}
+</div>
+</div>

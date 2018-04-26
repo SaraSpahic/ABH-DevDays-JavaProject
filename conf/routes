@@ -68,6 +68,7 @@ GET     /api/v1/getAllCities                                controllers.CityCont
 POST    /api/v1/fileUpload                                  controllers.AdministratorController.fileUpload
 GET     /api/v1/admin/getStatistics                         controllers.AdministratorController.getStatistics
 OPTIONS /api/v1/fileUpload                                  controllers.AdministratorController.checkPreFlight
+GET     /api/v1/admin/getActivityLogs                       controllers.AdministratorController.getActivityLogs
 
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 
