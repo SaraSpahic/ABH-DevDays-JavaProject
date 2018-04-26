@@ -1,5 +1,6 @@
 package services;
 
+import models.helpers.ActivityType;
 import models.tables.City;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -16,6 +17,9 @@ import java.util.UUID;
 public class CityService extends BaseService {
 
     private static final String ORDER_KEY = "name";
+    private static final String LOG_CREATE = "has been added by the administrator.";
+    private static final String LOG_DELETE = "has been deleted by the administrator.";
+    private static final String LOG_EDIT = "has been edited by the administrator.";
 
     @Inject
     private CityService() {
@@ -53,6 +57,7 @@ public class CityService extends BaseService {
      */
     public Boolean createCity(final City city) throws Exception {
         getSession().save(city);
+        logActivity(ActivityType.ADMIN_CREATE,   city.getName() + LOG_CREATE);
         return true;
     }
 
@@ -64,6 +69,7 @@ public class CityService extends BaseService {
      */
     public Boolean editCity(final City city) throws Exception {
         getSession().update(city);
+        logActivity(ActivityType.ADMIN_EDIT, city.getName() + LOG_EDIT);
         return true;
     }
 
@@ -79,6 +85,7 @@ public class CityService extends BaseService {
                 .uniqueResult();
 
         getSession().delete(city);
+        logActivity(ActivityType.ADMIN_DELETE, city.getName() + LOG_DELETE);
         return true;
     }
 }

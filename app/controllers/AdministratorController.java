@@ -27,4 +27,10 @@ public class AdministratorController extends BaseController {
     public Result getStatistics() {
         return wrapForAdmin(() -> this.service.getStatistics());
     }
+
+    @Transactional
+    public Result getActivityLogs() {
+        return wrapForAdmin(() -> this.service.getActivityLogs());
+    }
+
 }

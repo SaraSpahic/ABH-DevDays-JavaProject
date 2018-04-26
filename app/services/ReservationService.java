@@ -1,5 +1,6 @@
 package services;
 
+import models.helpers.ActivityType;
 import models.helpers.ReservationInquiryResponse;
 import models.helpers.UserReservations;
 import models.helpers.forms.ReservationConfirmationForm;
@@ -34,6 +35,7 @@ public class ReservationService extends BaseService {
     private static final Long FIVE_MINUTES_MILLIS = TimeUnit.MINUTES.toMillis(5);
     private static final String DAY_START_TIME = " 00:00:00";
     private static final String DAY_END_TIME = " 23:59:59";
+    private static final String LOG_RESERVATION = "A user has made a reservation." ;
 
     @Inject
     private ReservationService() {
@@ -176,6 +178,7 @@ public class ReservationService extends BaseService {
      */
     public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception {
         getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
+        logActivity(ActivityType.RESERVATION_CONFIRM, LOG_RESERVATION);
         return true;
     }
 

@@ -7,8 +7,13 @@ export default Ember.Route.extend({
       statistics: this.get('ajax').request('/admin/getStatistics', {
         xhrFields: {
           withCredentials: true,
-        },
+        }
       }),
-    });
-  },
+      acitvitylogs: this.get('ajax').request('/admin/getActivityLogs', {
+          xhrFields: {
+            withCredentials: true,
+          }
+      }),
+});
+}
 });
